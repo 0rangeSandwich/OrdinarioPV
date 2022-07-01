@@ -38,5 +38,16 @@ namespace Tienda
         {
             Close();
         }
+
+        private void inicioToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void ventasToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Form formulario = new fVentas();
+            formulario.Show();
+        }
     }
 }

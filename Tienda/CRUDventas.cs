@@ -9,7 +9,7 @@ using Npgsql;
 
 namespace Tienda
 {
-    internal class CRUD
+    internal class CRUDventas
     {
         private static string getConnectionString()
         {
@@ -23,11 +23,10 @@ namespace Tienda
             //Cadena de conexión a la db
             string conString = string.Format("{0}{1}{2}{3}{4}", host, port, db, user, pass);
 
-            //devuelve la conexion
             return conString;
 
         }
-        
+
         //Creamos una instancia de la clase  NpgsqlConnection para establecer la conexión
         public static NpgsqlConnection con = new NpgsqlConnection(getConnectionString());
         public static NpgsqlCommand cmd = default(NpgsqlCommand);
@@ -36,9 +35,7 @@ namespace Tienda
         public static DataTable PerformCRUD(NpgsqlCommand com)
         {
             //Puente entre la BD y el formulario
-            //NpgsqlDataAdapte para realizar las operaciones a la BD
             NpgsqlDataAdapter da = default(NpgsqlDataAdapter);
-            //Creamos una instancia de DT
             DataTable dt = new DataTable();
 
             try
@@ -46,7 +43,7 @@ namespace Tienda
 
                 da = new NpgsqlDataAdapter();
                 da.SelectCommand = com;
-                //fill llena la tabla segun los datos de la BD
+                //fill llena la tabla
                 da.Fill(dt);
 
                 return dt;
@@ -54,7 +51,6 @@ namespace Tienda
             }
             catch (Exception ex)
             {
-                //Advertencia y no podra continuar
                 MessageBox.Show("Error: " + ex.Message, "Error al realizar las operaciones del CRUD",
                                 MessageBoxButtons.OK, MessageBoxIcon.Error);
                 dt = null;

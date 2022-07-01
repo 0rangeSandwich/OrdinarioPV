@@ -81,7 +81,8 @@ namespace Tienda
             
             //CONCAT(CAST(idproducto as varchar) Se hace una conversion con el operador CAST para pasar datos numericos a cadena, esto para la busqueda
             CRUD.sql = "SELECT idproveedor, nombreproveedor, direccion, telefono, dias, cantidades, cajaunidad, formapago, pagocredito, plazo FROM \"Proveedores\" " +
-                       "WHERE CONCAT(CAST(idproveedor as varchar), ' ',CAST(nombreproveedor as varchar), ' ' , direccion, ' ' , telefono, ' ' , dias, ' ' , cantidades, ' ' , cajaunidad, ' ' , formapago, ' ' , pagocredito, ' ' , plazo) LIKE @busqueda::varchar " +
+                       "WHERE CONCAT(CAST(idproveedor as varchar), ' ',CAST(nombreproveedor as varchar), ' ' , direccion, ' ' , telefono, ' ' , dias, ' ' , " +
+                       "cantidades, ' ' , cajaunidad, ' ' , formapago, ' ' , pagocredito, ' ' , plazo) LIKE @busqueda::varchar " +
                        "ORDER BY idProveedor ASC";
 
             string strBusqueda = string.Format("%{0}%", busqueda);
@@ -164,14 +165,16 @@ namespace Tienda
 
         private void btnInsertar_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(txtNombre.Text.Trim()) || string.IsNullOrEmpty(txtDireccion.Text.Trim()) || string.IsNullOrEmpty(txtTelefono.Text.Trim()) || string.IsNullOrEmpty(txtCantidades.Text.Trim()) || string.IsNullOrEmpty(txtPlazo.Text.Trim()))
+            if (string.IsNullOrEmpty(txtNombre.Text.Trim()) || string.IsNullOrEmpty(txtDireccion.Text.Trim()) || string.IsNullOrEmpty(txtTelefono.Text.Trim()) 
+                || string.IsNullOrEmpty(txtCantidades.Text.Trim()) || string.IsNullOrEmpty(txtPlazo.Text.Trim()))
             {
                 MessageBox.Show("Por favor, llena todos los campos", "Insertar: Error",
                     MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 return;
             }
 
-            CRUD.sql = "INSERT INTO \"Proveedores\" (nombreproveedor, direccion, telefono, dias, cantidades, cajaunidad, formapago, pagocredito, plazo) VALUES(@nombreProveedor, @direccion, @telefono, @dias, @cantidades, @cajaunidad, @formapago, @pagoCredito, @plazo)";
+            CRUD.sql = "INSERT INTO \"Proveedores\" (nombreproveedor, direccion, telefono, dias, cantidades, cajaunidad, formapago, pagocredito, plazo) " +
+                "VALUES(@nombreProveedor, @direccion, @telefono, @dias, @cantidades, @cajaunidad, @formapago, @pagoCredito, @plazo)";
 
             execute(CRUD.sql, "Insertar");
 
@@ -223,14 +226,18 @@ namespace Tienda
                 return;
             }
 
-            if (string.IsNullOrEmpty(txtNombre.Text.Trim()) || string.IsNullOrEmpty(txtDireccion.Text.Trim()) || string.IsNullOrEmpty(txtTelefono.Text.Trim()) || string.IsNullOrEmpty(txtCantidades.Text.Trim()) || string.IsNullOrEmpty(txtPlazo.Text.Trim()))
+            if (string.IsNullOrEmpty(txtNombre.Text.Trim()) || string.IsNullOrEmpty(txtDireccion.Text.Trim()) 
+                || string.IsNullOrEmpty(txtTelefono.Text.Trim()) || string.IsNullOrEmpty(txtCantidades.Text.Trim()) 
+                || string.IsNullOrEmpty(txtPlazo.Text.Trim()))
             {
                 MessageBox.Show("Por favor, llena todos los campos", "Insertar: Error",
                     MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 return;
             }
 
-            CRUD.sql = "UPDATE \"Proveedores\" SET nombreproveedor=@nombreproveedor, direccion=@direccion, telefono=@telefono, dias=@dias, cantidades=@cantidades, cajaunidad=@cajaunidad, formapago=@formapago, pagocredito=@pagocredito, plazo=@plazo WHERE idproveedor = @idProveedor::integer";
+            CRUD.sql = "UPDATE \"Proveedores\" SET nombreproveedor=@nombreproveedor, direccion=@direccion, telefono=@telefono, " +
+                "dias=@dias, cantidades=@cantidades, cajaunidad=@cajaunidad, formapago=@formapago, pagocredito=@pagocredito, " +
+                "plazo=@plazo WHERE idproveedor = @idProveedor::integer";
 
             execute(CRUD.sql, "Modificar");
 
